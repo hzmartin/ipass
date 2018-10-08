@@ -1,11 +1,13 @@
 package ipass.domain;
 
 public class IPass {
+	
+	public static final Long MASTER_UID = 1L;
 
 	private Long id;
 	
 	/** registered user **/
-	private Long uid = 1L;
+	private Long uid = MASTER_UID;
 	
 	/** app uid **/
 	private String appuid;

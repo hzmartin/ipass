@@ -18,6 +18,10 @@ public class IPassService {
 		return iPassMapper.selectAll();
 	}
 	
+	public List<IPass> selectByAppUid(String appuid) {
+		return iPassMapper.selectByAppUid(IPass.MASTER_UID, appuid);
+	}
+	
 	@Transactional
 	public int insert(IPass o) {
 		return iPassMapper.insert(o);

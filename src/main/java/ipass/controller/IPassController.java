@@ -20,6 +20,11 @@ public class IPassController {
 	public List<IPass> selectAll() {
 		return iPassService.selectAll();
 	}
+	
+	@RequestMapping("/selectByAppUid")
+	public List<IPass> selectByAppUid(@RequestParam String appuid) {
+		return iPassService.selectByAppUid(appuid);
+	}
 
 	@RequestMapping("/insert")
 	public int insert(@RequestParam String appuid, 
