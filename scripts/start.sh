@@ -11,6 +11,6 @@ APP_HOME=`pwd`
 LOG_DIR_OPT="-DAPP_HOME=\"${APP_HOME}\""
 
 #java虚拟机启动参数
-JAVA_OPTS="-XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:~/logs/gc-`date +%Y-%m-%d`.log -Xms256m -Xmx256m -XX:+UseParallelGC -XX:+UseParallelOldGC ${LOG_DIR_OPT}"
+JAVA_OPTS="-XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:./logs/gc-`date +%Y-%m-%d`.log -Xms256m -Xmx256m -XX:+UseParallelGC -XX:+UseParallelOldGC ${LOG_DIR_OPT}"
 
 nohup $JAVA_HOME/bin/java $JAVA_OPTS -jar ipass-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
