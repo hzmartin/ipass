@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- properties -->
+    <property name="LOG_HOME" value="./logs"/>
+
+    <!-- console appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%-5level]%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%logger{0} | %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- logger -->
+    <logger name="ipass" level="DEBUG"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="org.springframework" level="DEBUG"/>
+
+    <!-- root -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

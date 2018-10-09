@@ -15,6 +15,12 @@ public class IPassController {
 
 	@Autowired
 	private IPassService iPassService;
+	
+	@RequestMapping("/create")
+	public String create() {
+		iPassService.create();
+		return "success";
+	}
 
 	@RequestMapping("/selectAll")
 	public List<IPass> selectAll() {

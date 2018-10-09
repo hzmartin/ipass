@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ipass.mapper.IPassMapper">
+    <!--auto generated Code-->
+    <resultMap id="BaseColumnMap" type="ipass.domain.IPass">
+        <result column="id" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="appuid" property="appuid"/>
+        <result column="keyword" property="keyword"/>
+        <result column="password" property="password"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="o.id">
+        insert into ipass(uid,appuid,keyword,password,remark, create_time, update_time) 
+        values
+        (#{o.uid}, #{o.appuid}, #{o.keyword}, #{o.password}, #{o.remark, jdbcType=VARCHAR}, #{o.createTime}, #{o.updateTime})
+    </insert>
+
+</mapper>
+

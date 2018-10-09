@@ -27,4 +27,8 @@ public class IPassService {
 		return iPassMapper.insert(o);
 	}
 
+	public void create() {
+		iPassMapper.create();
+	}
+
 }
