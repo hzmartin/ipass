@@ -2,6 +2,7 @@ package ipass.service;
 
 import java.util.List;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,17 @@ public class IPassService {
 	@Autowired
 	private IPassMapper iPassMapper;
 
+	@Autowired
+	private StringEncryptor iEncryptor;
+
+	public String encrypt(String text) {
+		return iEncryptor.encrypt(text);
+	}
+
+	public String decrypt(String text) {
+		return iEncryptor.decrypt(text);
+	}
+
 	public List<IPass> selectAll() {
 		return iPassMapper.selectAll();
 	}
@@ -22,11 +34,19 @@ public class IPassService {
 	}
 
 	public List<IPass> selectLike(String q) {
-		return iPassMapper.selectLike(IPass.MASTER_UID, q);
+		List<IPass> list = iPassMapper.selectLike(IPass.MASTER_UID, q);
+		for (IPass iPass : list) {
+			iPass.setPassword(iEncryptor.decrypt(iPass.getPassword()));
+		}
+		return list;
 	}
 
 	public List<IPass> selectByAppuidLike(String appuid, String q) {
-		return iPassMapper.selectByAppuidLike(IPass.MASTER_UID, appuid, q);
+		List<IPass> list = iPassMapper.selectByAppuidLike(IPass.MASTER_UID, appuid, q);
+		for (IPass iPass : list) {
+			iPass.setPassword(iEncryptor.decrypt(iPass.getPassword()));
+		}
+		return list;
 	}
 
 	public int update(IPass o) {

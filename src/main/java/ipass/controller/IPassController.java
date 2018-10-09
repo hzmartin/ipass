@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jasypt.encryption.StringEncryptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +16,7 @@ import ipass.service.IPassService;
 @RestController
 public class IPassController {
 
-	private static final Logger log = LoggerFactory.getLogger(IPassController.class);
+	//private static final Logger log = LoggerFactory.getLogger(IPassController.class);
 
 	@Value("${jasypt.test}")
 	private String testJasypt;
@@ -27,17 +24,14 @@ public class IPassController {
 	@Autowired
 	private IPassService iPassService;
 
-	@Autowired
-	private StringEncryptor iEncryptor;
-
 	@RequestMapping("/encrypt")
 	public String encrypt(String text) {
-		return iEncryptor.encrypt(text);
+		return iPassService.encrypt(text);
 	}
-	
+
 	@RequestMapping("/decrypt")
 	public String decrypt(String text) {
-		return iEncryptor.decrypt(text);
+		return iPassService.decrypt(text);
 	}
 
 	@RequestMapping("/testJasypt")
@@ -82,15 +76,15 @@ public class IPassController {
 			update = true;
 		}
 		if (!StringUtils.isBlank(keyword)) {
-			pass.setAppuid(keyword);
+			pass.setKeyword(keyword);
 			update = true;
 		}
 		if (!StringUtils.isBlank(password)) {
-			pass.setAppuid(password);
+			pass.setPassword(iPassService.encrypt(password));
 			update = true;
 		}
 		if (!StringUtils.isBlank(remark)) {
-			pass.setAppuid(remark);
+			pass.setRemark(remark);
 			update = true;
 		}
 		if (update) {
@@ -124,7 +118,7 @@ public class IPassController {
 			@RequestParam(required = false) String remark) {
 		IPass o = new IPass();
 		o.setAppuid(appuid);
-		o.setPassword(password);
+		o.setPassword(iPassService.encrypt(password));
 		o.setRemark(remark);
 		o.setKeyword(keyword);
 		return iPassService.insert(o);
