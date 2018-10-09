@@ -13,11 +13,10 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="o.id">
-        insert into ipass(uid,appuid,keyword,password,remark, create_time, update_time) 
-        values
-        (#{o.uid}, #{o.appuid}, #{o.keyword}, #{o.password}, #{o.remark, jdbcType=VARCHAR}, #{o.createTime}, #{o.updateTime})
-    </insert>
-
+	<select id="selectAll" resultMap="BaseColumnMap">
+        <![CDATA[
+        select * from ipass
+        ]]>
+    </select>
 </mapper>
 
