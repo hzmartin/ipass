@@ -18,6 +18,8 @@ public class IPass {
 	/** encrypted password **/
 	private String password;
 	
+	private String rawPassword;
+	
 	/** remark for the password **/
 	private String remark;
 	
@@ -87,5 +89,13 @@ public class IPass {
 
 	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getRawPassword() {
+		return rawPassword;
+	}
+
+	public void setRawPassword(String rawPassword) {
+		this.rawPassword = rawPassword;
 	}
 }

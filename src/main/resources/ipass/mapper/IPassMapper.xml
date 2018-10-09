@@ -15,7 +15,7 @@
 
 	<select id="selectAll" resultMap="BaseColumnMap">
         <![CDATA[
-        select * from ipass
+        select * from ipass where uid = 1
         ]]>
     </select>
 </mapper>
