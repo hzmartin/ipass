@@ -34,11 +34,14 @@ public class IPassController {
 	public String encrypt(String text) {
 		return iEncryptor.encrypt(text);
 	}
+	
+	@RequestMapping("/decrypt")
+	public String decrypt(String text) {
+		return iEncryptor.decrypt(text);
+	}
 
 	@RequestMapping("/testJasypt")
 	public String testJasypt() {
-		String decrypt = iEncryptor.decrypt("DD844AA82AA100677F8E7DA29C9713E3");
-		log.debug("{}, {}, {}", "test", testJasypt, decrypt);
 		return testJasypt;
 	}
 
