@@ -20,17 +20,13 @@ public class IPassService {
 	public IPass selectById(Long id) {
 		return iPassMapper.selectById(id);
 	}
-	
-	public List<IPass> selectByAppUid(String appuid) {
-		return iPassMapper.selectByAppUid(IPass.MASTER_UID, appuid);
+
+	public List<IPass> selectLike(String q) {
+		return iPassMapper.selectLike(IPass.MASTER_UID, q);
 	}
 
-	public List<IPass> selectByKeyword(String keyword) {
-		return iPassMapper.selectByKeyword(IPass.MASTER_UID, keyword);
-	}
-
-	public List<IPass> selectByAppUidKeyword(String appuid, String keyword) {
-		return iPassMapper.selectByAppUidKeyword(IPass.MASTER_UID, appuid, keyword);
+	public List<IPass> selectByAppuidLike(String appuid, String q) {
+		return iPassMapper.selectByAppuidLike(IPass.MASTER_UID, appuid, q);
 	}
 
 	public int update(IPass o) {
@@ -47,6 +43,7 @@ public class IPassService {
 
 	public void create() {
 		iPassMapper.create();
+		iPassMapper.createIndex();
 	}
 
 }

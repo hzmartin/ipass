@@ -26,6 +26,9 @@ public interface IPassMapper {
 			")")
 	void create();
 	
+	@Update("CREATE INDEX IPASS_UID ON IPASS (UID, APPUID)")
+	void createIndex();
+	
 	List<IPass> selectAll();
 
 	@Select("select * from ipass where id = #{id}")
@@ -33,15 +36,12 @@ public interface IPassMapper {
 	
 	@Select("select count(1) from ipass")
 	Integer count();
-
-	@Select("select * from ipass where uid = #{uid} and appuid = #{appuid}")
-	List<IPass> selectByAppUid(@Param("uid") Long uid, @Param("appuid") String appuid);
-
-	@Select("select * from ipass where uid = #{uid} and appuid = #{appuid} and keyword like '%#{keyword}%'")
-	List<IPass> selectByAppUidKeyword(@Param("uid") Long uid, @Param("appuid") String appuid, @Param("keyword") String keyword);
 	
-	@Select("select * from ipass where uid = #{uid} and keyword like '%#{keyword}%'")
-	List<IPass> selectByKeyword(@Param("uid") Long uid, @Param("keyword") String keyword);
+	@Select("select * from ipass where uid = #{uid} and appuid like '%${appuid}%' and (keyword like '%${q}%' or remark like '%${q}%')")
+	List<IPass> selectByAppuidLike(@Param("uid") Long uid, @Param("appuid") String appuid, @Param("q") String q);
+
+	@Select("select * from ipass where uid = #{uid} and (appuid like '%${q}%' or keyword like '%${q}%' or remark like '%${q}%')")
+	List<IPass> selectLike(@Param("uid") Long uid, @Param("q") String q);
 
 	@Insert("insert into ipass(uid,appuid,keyword,password,remark, create_time, update_time) values(#{o.uid}, #{o.appuid}, #{o.keyword}, #{o.password}, #{o.remark, jdbcType=VARCHAR}, #{o.createTime}, #{o.updateTime})")
 	int insert(@Param("o") IPass obj);
@@ -49,7 +49,7 @@ public interface IPassMapper {
 	@Delete("<script>delete from ipass where id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>#{item}</foreach></script>")
 	int delete(@Param("ids") List<Long> ids);
 
-	@Update("update ipass set password = #{o.password}, remark = #{o.remark}, keyword = #{o.keyword}, update_time = #{o.updateTime} where uid = #{uid} and appuid = #{o.appuid}")
+	@Update("update ipass set appuid = #{o.appuid}, password = #{o.password}, remark = #{o.remark}, keyword = #{o.keyword}, update_time = #{o.updateTime} where id = #{o.id} and uid = #{o.uid}")
 	int update(@Param("o") IPass obj);
 
 }

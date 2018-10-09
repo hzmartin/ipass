@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jasypt.encryption.StringEncryptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,8 @@ import ipass.service.IPassService;
 
 @RestController
 public class IPassController {
+
+	private static final Logger log = LoggerFactory.getLogger(IPassController.class);
 
 	@Value("${jasypt.test}")
 	private String testJasypt;
@@ -33,6 +37,8 @@ public class IPassController {
 
 	@RequestMapping("/testJasypt")
 	public String testJasypt() {
+		String decrypt = iEncryptor.decrypt("DD844AA82AA100677F8E7DA29C9713E3");
+		log.debug("{}, {}, {}", "test", testJasypt, decrypt);
 		return testJasypt;
 	}
 
@@ -47,19 +53,14 @@ public class IPassController {
 		return iPassService.selectAll();
 	}
 
-	@RequestMapping("/selectByAppUid")
-	public List<IPass> selectByAppUid(@RequestParam String appuid) {
-		return iPassService.selectByAppUid(appuid);
+	@RequestMapping("/selectLike")
+	public List<IPass> selectLike(@RequestParam String q) {
+		return iPassService.selectLike(q);
 	}
 
-	@RequestMapping("/selectByKeyword")
-	public List<IPass> selectByKeyword(@RequestParam String keyword) {
-		return iPassService.selectByKeyword(keyword);
-	}
-
-	@RequestMapping("/selectByAppUidKeyword")
-	public List<IPass> selectByAppUidKeyword(@RequestParam String appuid, @RequestParam String keyword) {
-		return iPassService.selectByAppUidKeyword(appuid, keyword);
+	@RequestMapping("/selectByAppuidLike")
+	public List<IPass> selectByAppuidLike(@RequestParam String appuid, @RequestParam String q) {
+		return iPassService.selectByAppuidLike(appuid, q);
 	}
 
 	@RequestMapping("/update")
@@ -71,6 +72,7 @@ public class IPassController {
 			return 0;
 		}
 		boolean update = false;
+		pass.setUid(uid);
 		pass.setUpdateTime(System.currentTimeMillis());
 		if (!StringUtils.isBlank(appuid)) {
 			pass.setAppuid(appuid);
@@ -78,6 +80,10 @@ public class IPassController {
 		}
 		if (!StringUtils.isBlank(keyword)) {
 			pass.setAppuid(keyword);
+			update = true;
+		}
+		if (!StringUtils.isBlank(password)) {
+			pass.setAppuid(password);
 			update = true;
 		}
 		if (!StringUtils.isBlank(remark)) {
