@@ -10,7 +10,7 @@ public class AppUtil {
 	public static String get32UUid() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
-	
+
 	/**
 	 * natural order, sha1hex
 	 */
@@ -30,10 +30,10 @@ public class AppUtil {
 		}
 		return DigestUtils.sha1Hex(sb.toString());
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println("appkey: " + get32UUid());
 		System.out.println("secret: " + get32UUid());
-		System.out.println(sign("a","b"));
+		System.out.println(sign("a", "b"));
 	}
 }

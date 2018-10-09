@@ -16,8 +16,6 @@ import ipass.service.IPassService;
 @RestController
 public class IPassController {
 
-	//private static final Logger log = LoggerFactory.getLogger(IPassController.class);
-
 	@Value("${jasypt.test}")
 	private String testJasypt;
 
