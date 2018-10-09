@@ -28,6 +28,9 @@ public interface IPassMapper {
 	
 	List<IPass> selectAll();
 
+	@Select("select * from ipass where id = #{id}")
+	IPass selectById(@Param("id") Long id);
+	
 	@Select("select count(1) from ipass")
 	Integer count();
 
@@ -44,9 +47,9 @@ public interface IPassMapper {
 	int insert(@Param("o") IPass obj);
 
 	@Delete("<script>delete from ipass where id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>#{item}</foreach></script>")
-	void delete(@Param("ids") List<Long> ids);
+	int delete(@Param("ids") List<Long> ids);
 
 	@Update("update ipass set password = #{o.password}, remark = #{o.remark}, keyword = #{o.keyword}, update_time = #{o.updateTime} where uid = #{uid} and appuid = #{o.appuid}")
-	void update(@Param("o") IPass obj);
+	int update(@Param("o") IPass obj);
 
 }
