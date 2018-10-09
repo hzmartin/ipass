@@ -11,12 +11,12 @@
     </appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <file>${LOG_HOME}/ipass.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${APP_NAME}.log.%d{yyyy-MM-dd}_%i</fileNamePattern>
-            <maxFileSize>200M</maxFileSize>
+            <fileNamePattern>${LOG_HOME}/ipass.log.%d{yyyy-MM-dd}_%i</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
             <maxHistory>2</maxHistory>
-            <totalSizeCap>500M</totalSizeCap>
+            <totalSizeCap>200MB</totalSizeCap>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>[%-5level]%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%logger{0} | %msg%n</pattern>
@@ -29,6 +29,7 @@
 
     <!-- root -->
     <root level="INFO">
+    	<appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 </configuration>
