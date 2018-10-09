@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +14,6 @@ import ipass.service.IPassService;
 
 @RestController
 public class IPassController {
-
-	@Value("${jasypt.test}")
-	private String testJasypt;
 
 	@Autowired
 	private IPassService iPassService;
@@ -30,32 +26,6 @@ public class IPassController {
 	@RequestMapping("/decrypt")
 	public String decrypt(String text) {
 		return iPassService.decrypt(text);
-	}
-
-	@RequestMapping("/testJasypt")
-	public String testJasypt() {
-		return testJasypt;
-	}
-
-	@RequestMapping("/create")
-	public String create() {
-		iPassService.create();
-		return "success";
-	}
-
-	@RequestMapping("/selectAll")
-	public List<IPass> selectAll() {
-		return iPassService.selectAll();
-	}
-
-	@RequestMapping("/selectLike")
-	public List<IPass> selectLike(@RequestParam String q) {
-		return iPassService.selectLike(q);
-	}
-
-	@RequestMapping("/selectByAppuidLike")
-	public List<IPass> selectByAppuidLike(@RequestParam String appuid, @RequestParam String q) {
-		return iPassService.selectByAppuidLike(appuid, q);
 	}
 
 	@RequestMapping("/update")
@@ -120,5 +90,20 @@ public class IPassController {
 		o.setRemark(remark);
 		o.setKeyword(keyword);
 		return iPassService.insert(o);
+	}
+
+	@RequestMapping("/selectAll")
+	public List<IPass> selectAll() {
+		return iPassService.selectAll();
+	}
+
+	@RequestMapping("/selectLike")
+	public List<IPass> selectLike(@RequestParam String q) {
+		return iPassService.selectLike(q);
+	}
+
+	@RequestMapping("/selectByAppuidLike")
+	public List<IPass> selectByAppuidLike(@RequestParam String appuid, @RequestParam String q) {
+		return iPassService.selectByAppuidLike(appuid, q);
 	}
 }
