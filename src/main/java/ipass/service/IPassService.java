@@ -25,7 +25,7 @@ public class IPassService {
 		config.setPassword(password);
 		config.setAlgorithm("PBEWithMD5AndDES");
 		config.setKeyObtentionIterations("2048");
-		config.setPoolSize("5");
+		config.setPoolSize("1");
 		config.setProviderName("SunJCE");
 		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
 		config.setStringOutputType("hexadecimal");
@@ -39,7 +39,7 @@ public class IPassService {
 		config.setPassword(password);
 		config.setAlgorithm("PBEWithMD5AndDES");
 		config.setKeyObtentionIterations("2048");
-		config.setPoolSize("5");
+		config.setPoolSize("1");
 		config.setProviderName("SunJCE");
 		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
 		config.setStringOutputType("hexadecimal");

@@ -15,8 +15,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/ipass.log.%d{yyyy-MM-dd}_%i</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
-            <maxHistory>2</maxHistory>
-            <totalSizeCap>200MB</totalSizeCap>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>[%-5level]%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%logger{0} | %msg%n</pattern>
