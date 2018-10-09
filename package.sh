@@ -4,9 +4,9 @@ git pull
 
 REL_DIR=/root/ipass
 
-cp conf/* src/main/resources
 
 sh mvnw clean package
 
 cp target/ipass-0.0.1-SNAPSHOT.jar $REL_DIR/
 cp scripts/start.sh $REL_DIR/
+cp conf/* $REL_DIR/
