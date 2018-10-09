@@ -95,6 +95,15 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>ipass/mapper/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 	<!-- 
 	<repositories>
