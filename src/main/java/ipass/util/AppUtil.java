@@ -32,8 +32,9 @@ public class AppUtil {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("appkey: " + get32UUid());
-		System.out.println("secret: " + get32UUid());
-		System.out.println(sign("a", "b"));
+		Long curTime = 1539079145000L;
+		String nonce = "121314";
+		String signKey = "8631c4b27bc74f408892ab0561eb5549";
+		System.out.println(sign(curTime+"", nonce, signKey, "8631c4b27bc74f408892ab0561eb5549"));
 	}
 }

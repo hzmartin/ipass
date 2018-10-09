@@ -36,7 +36,7 @@ public class IPassApplication {
 	public StringEncryptor stringEncryptor() {
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		String key = "JASYPT_PASSWORD";
+		String key = "IPASS_PASSWORD";
 		String jasyptPassword = System.getProperty(key);
 		if (StringUtils.isBlank(jasyptPassword)) {
 			jasyptPassword = System.getenv(key);
@@ -47,7 +47,7 @@ public class IPassApplication {
 		log.info("effective jasypt password: " + jasyptPassword);
 		config.setPassword(jasyptPassword);
 		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setKeyObtentionIterations("1000");
+		config.setKeyObtentionIterations("2048");
 		config.setPoolSize("5");
 		config.setProviderName("SunJCE");
 		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
@@ -55,4 +55,5 @@ public class IPassApplication {
 		encryptor.setConfig(config);
 		return encryptor;
 	}
+	
 }

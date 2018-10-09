@@ -3,6 +3,8 @@ package ipass.service;
 import java.util.List;
 
 import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,34 @@ public class IPassService {
 
 	@Autowired
 	private StringEncryptor iEncryptor;
+
+	public String testEncrypt(String password, String text) {
+		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+		config.setPassword(password);
+		config.setAlgorithm("PBEWithMD5AndDES");
+		config.setKeyObtentionIterations("2048");
+		config.setPoolSize("5");
+		config.setProviderName("SunJCE");
+		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+		config.setStringOutputType("hexadecimal");
+		encryptor.setConfig(config);
+		return encryptor.encrypt(text);
+	}
+
+	public String testDecrypt(String password, String text) {
+		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+		config.setPassword(password);
+		config.setAlgorithm("PBEWithMD5AndDES");
+		config.setKeyObtentionIterations("2048");
+		config.setPoolSize("5");
+		config.setProviderName("SunJCE");
+		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+		config.setStringOutputType("hexadecimal");
+		encryptor.setConfig(config);
+		return encryptor.decrypt(text);
+	}
 
 	public String encrypt(String text) {
 		return iEncryptor.encrypt(text);
