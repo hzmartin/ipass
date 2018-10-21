@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ipass.domain.IPass;
 import ipass.mapper.IPassMapper;
+import ipass.util.EncryptorFactory;
 
 @Service
 public class IPassService {
@@ -17,48 +17,30 @@ public class IPassService {
 	private IPassMapper iPassMapper;
 
 	@Autowired
-	private StringEncryptor iEncryptor;
+	private StringEncryptor systemEncryptor;
 
 	public String testEncrypt(String password, String text) {
-		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword(password);
-		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setKeyObtentionIterations("2048");
-		config.setPoolSize("1");
-		config.setProviderName("SunJCE");
-		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-		config.setStringOutputType("hexadecimal");
-		encryptor.setConfig(config);
+		PooledPBEStringEncryptor encryptor = EncryptorFactory.createPooledPBEStringEncryptor(password);
 		return encryptor.encrypt(text);
 	}
 
 	public String testDecrypt(String password, String text) {
-		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword(password);
-		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setKeyObtentionIterations("2048");
-		config.setPoolSize("1");
-		config.setProviderName("SunJCE");
-		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-		config.setStringOutputType("hexadecimal");
-		encryptor.setConfig(config);
+		PooledPBEStringEncryptor encryptor = EncryptorFactory.createPooledPBEStringEncryptor(password);
 		return encryptor.decrypt(text);
 	}
 
 	public String encrypt(String text) {
-		return iEncryptor.encrypt(text);
+		return systemEncryptor.encrypt(text);
 	}
 
 	public String decrypt(String text) {
-		return iEncryptor.decrypt(text);
+		return systemEncryptor.decrypt(text);
 	}
 
 	public List<IPass> selectAll() {
 		List<IPass> list = iPassMapper.selectAll();
 		for (IPass iPass : list) {
-			iPass.setRawPassword(iEncryptor.decrypt(iPass.getPassword()));
+			iPass.setRawPassword(systemEncryptor.decrypt(iPass.getPassword()));
 		}
 		return list;
 	}
@@ -70,7 +52,7 @@ public class IPassService {
 	public List<IPass> selectLike(String q) {
 		List<IPass> list = iPassMapper.selectLike(IPass.MASTER_UID, q);
 		for (IPass iPass : list) {
-			iPass.setRawPassword(iEncryptor.decrypt(iPass.getPassword()));
+			iPass.setRawPassword(systemEncryptor.decrypt(iPass.getPassword()));
 		}
 		return list;
 	}
@@ -78,7 +60,7 @@ public class IPassService {
 	public List<IPass> selectByAppuidLike(String appuid, String q) {
 		List<IPass> list = iPassMapper.selectByAppuidLike(IPass.MASTER_UID, appuid, q);
 		for (IPass iPass : list) {
-			iPass.setRawPassword(iEncryptor.decrypt(iPass.getPassword()));
+			iPass.setRawPassword(systemEncryptor.decrypt(iPass.getPassword()));
 		}
 		return list;
 	}
