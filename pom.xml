@@ -106,6 +106,8 @@
 			</resource>
 		</resources>
 	</build>
+	
+	<!-- remove if not necessary -->
 	<repositories>
 		<repository>
 			<id>repo</id>
