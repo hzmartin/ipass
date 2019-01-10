@@ -101,7 +101,8 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>ipass/mapper/*.xml</include>
-					<include>logback.xml</include>
+					<include>*.xml</include>
+					<include>*.properties</include>
 				</includes>
 			</resource>
 		</resources>
