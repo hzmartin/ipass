@@ -55,9 +55,6 @@ public class RequestAspect {
 				.getRequest();
 		logBean.setPath(request.getRequestURI());
 		logBean.setIp(RequestUtil.getIp(request));
-		if (debug) {
-			logBean.setHeaders(RequestUtil.getHeaders(request));
-		}
 
 		MethodSignature joinPointObject = (MethodSignature) joinPoint.getSignature();
 		Method method = joinPointObject.getMethod();
@@ -77,6 +74,10 @@ public class RequestAspect {
 		}
 		logBean.setParams(params);
 
+		if (debug) {
+			logBean.setHeaders(RequestUtil.getHeaders(request));
+			return;
+		}
 		String curTimeStr = request.getHeader(HeaderKeys.KEY_CUR_TIME);
 		String nonce = request.getHeader(HeaderKeys.KEY_NONCE);
 		String checksum = request.getHeader(HeaderKeys.KEY_CHECKSUM);

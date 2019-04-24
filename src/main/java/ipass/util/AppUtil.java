@@ -32,9 +32,9 @@ public class AppUtil {
 	}
 
 	public static void main(String[] args) {
-		Long curTime = 1539079145000L;
+		Long curTime = System.currentTimeMillis();
 		String nonce = "121314";
-		String signKey = "8631c4b27bc74f408892ab0561eb5549";
-		System.out.println(sign(curTime+"", nonce, signKey, "8631c4b27bc74f408892ab0561eb5549"));
+		String signKey = "dd1b84732e454ce39c85a240c1dd8572";
+		System.out.println("sign(" + curTime + "," + nonce + "," + signKey + ") =" + sign(curTime + "", nonce, signKey));
 	}
 }
