@@ -22,12 +22,12 @@
         </encoder>
     </appender>
     <!-- logger -->
-    <logger name="ipass" level="INFO"/>
-    <logger name="org.apache.ibatis" level="INFO"/>
+    <logger name="ipass" level="DEBUG"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
     <logger name="org.springframework" level="INFO"/>
 
     <!-- root -->
-    <root level="INFO">
+    <root level="DEBUG">
     	<appender-ref ref="STDOUT"/>
     </root>
 </configuration>

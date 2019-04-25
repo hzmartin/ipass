@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -17,6 +20,7 @@ import ipass.util.EncryptorFactory;
 
 @SpringBootApplication
 @MapperScan("ipass.mapper")
+@EnableCaching
 public class IPassApplication {
 
 	@SuppressWarnings("unused")
@@ -35,6 +39,11 @@ public class IPassApplication {
 	@Bean(name = "systemEncryptor")
 	public StringEncryptor stringEncryptor() {
 		return EncryptorFactory.createPooledPBEStringEncryptor();
+	}
+	
+	@Bean
+	public CacheManager cacheManager(){
+		return new ConcurrentMapCacheManager("local");
 	}
 	
 }

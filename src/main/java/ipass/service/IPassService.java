@@ -5,7 +5,13 @@ import java.util.List;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ipass.domain.IPass;
 import ipass.mapper.IPassMapper;
@@ -18,6 +24,9 @@ public class IPassService {
 
 	@Autowired
 	private StringEncryptor systemEncryptor;
+
+	@Autowired
+	private CacheManager cacheManager;
 
 	public String testEncrypt(String password, String text) {
 		PooledPBEStringEncryptor encryptor = EncryptorFactory.createPooledPBEStringEncryptor(password);
@@ -37,6 +46,7 @@ public class IPassService {
 		return systemEncryptor.decrypt(text);
 	}
 
+	@Cacheable(value = { "local" }, key = "'pass_all'")
 	public List<IPass> selectAll() {
 		List<IPass> list = iPassMapper.selectAll();
 		for (IPass iPass : list) {
@@ -45,6 +55,7 @@ public class IPassService {
 		return list;
 	}
 
+	@Cacheable(value = { "local" }, key = "'pass_'.concat(#id)")
 	public IPass selectById(Long id) {
 		return iPassMapper.selectById(id);
 	}
@@ -65,14 +76,23 @@ public class IPassService {
 		return list;
 	}
 
+	@Transactional
+	@Caching(evict = { @CacheEvict(value = { "local" }, key = "'pass_'.concat(#o.id)"),
+			@CacheEvict(value = { "local" }, key = "'pass_all'") })
 	public int update(IPass o) {
 		return iPassMapper.update(o);
 	}
 
 	public int delete(List<Long> ids) {
-		return iPassMapper.delete(ids);
+		int count = iPassMapper.delete(ids);
+		Cache cache = cacheManager.getCache("local");
+		for (Long id : ids) {
+			cache.evict("pass_" + id);
+		}
+		return count;
 	}
 
+	@Caching(evict = { @CacheEvict(value = { "local" }, key = "'pass_all'") })
 	public int insert(IPass o) {
 		return iPassMapper.insert(o);
 	}
